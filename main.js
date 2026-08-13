@@ -31,7 +31,17 @@ in each round it shows whether it's a tie, a winner, or a loser, and at the end 
 the winner with each player's score. Finally, we call playGame to execute the entire function.
 */
 
+const btnPiedra = document.querySelector('.piedra')
+const btnPapel = document.querySelector('.papel')
+const btnTijeras = document.querySelector('.tijeras')
+const winner = document.querySelector('.winner')
+const scores = document.querySelector('.scores')
 
+
+let humanScore = 0;
+let computerScore = 0;
+let gameOver = false;
+let select;
 
 
 const getComputerChoice = () => {
@@ -46,54 +56,62 @@ const getComputerChoice = () => {
 }
 
 
-const getHumanChoice = () => {
-    const selection = prompt('Ingrese un valor (piedra, papel o tijeras):');
-    return selection.toLowerCase().trim();
+const playRound = (humanChoice, computerChoice) => {
+
+    if (gameOver) return;
+
+    const humanPlay = humanChoice.toLowerCase();
+
+    const humanGana =
+        (humanPlay === 'piedra' && computerChoice === 'tijeras') ||
+        (humanPlay === 'papel' && computerChoice === 'piedra') ||
+        (humanPlay === 'tijeras' && computerChoice === 'papel');
+
+    if (humanPlay === computerChoice) {
+        winner.textContent = `¡Empate! Ambos eligieron ${humanPlay}`;
+
+    } else if (humanGana) {
+        humanScore++;
+        winner.textContent = `¡Ganaste! ${humanPlay} vence a ${computerChoice}`;
+
+    } else {
+        computerScore++;
+        winner.textContent = `¡Pierdes! ${computerChoice} vence a ${humanPlay}`;
+    }
+
+    scores.textContent = `Marcador:  Human - ${humanScore} - ${computerScore} - Comp`
+
+    if (humanScore === 5) {
+        winner.textContent = `El Ganador es: ${'Human'}`
+        winner.style.color = 'green'
+        gameOver = true
+    }
+
+    if (computerScore === 5) {
+        winner.textContent = `El Ganador es: ${'Comp'}`;
+        winner.style.color = 'green'
+        gameOver = true
+    }
 };
 
 
-
-
-
-const playGame = () => {
-
-    let humanScore = 0;
-    let computerScore = 0;
-
-    const playRound = (humanChoice, computerChoice) => {
-
-        const humanPlay = humanChoice.toLowerCase();
-
-        if (humanPlay === computerChoice) {
-            console.log(`¡Empate! Ambos eligieron ${humanPlay}`);
-            return;
-        }
-
-        const humanGana =
-            (humanPlay === 'piedra' && computerChoice === 'tijeras') ||
-            (humanPlay === 'papel' && computerChoice === 'piedra') ||
-            (humanPlay === 'tijeras' && computerChoice === 'papel');
-
-        if (humanGana) {
-            humanScore++;
-            console.log(`¡Ganaste! ${humanPlay} vence a ${computerChoice}`);
-        } else {
-            computerScore++;
-            console.log(`¡Pierdes! ${computerChoice} vence a ${humanPlay}`);
-        }
-    };
-
-    for (let i = 0; i < 5; i++) {
-        playRound(getHumanChoice(), getComputerChoice())
-    }
-
-    if (humanScore === computerScore) {
-        alert(`Empate! HUMAN - PUNTAJE: ${humanScore} ---------- COMP - PUNTAJE: ${computerScore}`);
-    } else if (humanScore > computerScore) {
-        alert(`El Ganador es: HUMAN - PUNTAJE: ${humanScore} ---------- COMP - PUNTAJE: ${computerScore}`);
-    } else {
-        alert(`El Ganador es:  COMP - PUNTAJE: ${computerScore} ---------- HUMAN - PUNTAJE: ${humanScore}`);
-    }
+const playerSelection = (select) => {
+    if (select === 'piedra') return 'piedra'
+    if (select === 'papel') return 'papel'
+    if (select === 'tijeras') return 'tijeras'
 }
 
-playGame()
+btnPiedra.addEventListener('click', () => {
+    select = "piedra"
+    playRound(playerSelection(select), getComputerChoice())
+})
+
+btnPapel.addEventListener('click', () => {
+    select = "papel"
+    playRound(playerSelection(select), getComputerChoice())
+})
+
+btnTijeras.addEventListener('click', () => {
+    select = "tijeras"
+    playRound(playerSelection(select), getComputerChoice())
+})
