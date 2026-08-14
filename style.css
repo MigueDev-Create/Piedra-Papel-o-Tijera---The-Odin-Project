@@ -38,7 +38,9 @@ body {
   border: none;
   box-shadow: 0 4px 10px rgba(36, 91, 122, 0.3);
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
 }
 
 .btn:hover {
@@ -82,3 +84,27 @@ body {
   display: none;
 }
 
+.reset {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-reset {
+  background-color: #dd6a0c;
+  color: #ffffff;
+  padding: 13px 24px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.534);
+  cursor: pointer;
+  font-size: 18px;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+    margin-top: 12px;
+}
+
+.btn-reset:hover {
+  background-color: #e48a24;
+  transform: translateY(-3px);
+}

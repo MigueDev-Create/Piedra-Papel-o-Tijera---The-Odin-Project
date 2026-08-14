@@ -36,13 +36,13 @@ const btnPapel = document.querySelector('.papel')
 const btnTijeras = document.querySelector('.tijeras')
 const winner = document.querySelector('.winner')
 const scores = document.querySelector('.scores')
+const btnReset = document.querySelector('.btn-reset')
 
 
 let humanScore = 0;
 let computerScore = 0;
 let gameOver = false;
 let select;
-
 
 const getComputerChoice = () => {
     const selection = Math.floor(Math.random() * 3)
@@ -85,12 +85,14 @@ const playRound = (humanChoice, computerChoice) => {
         winner.textContent = `El Ganador es: ${'Human'}`
         winner.style.color = 'green'
         gameOver = true
+        btnReset.hidden = false
     }
 
     if (computerScore === 5) {
         winner.textContent = `El Ganador es: ${'Comp'}`;
         winner.style.color = 'green'
         gameOver = true
+        btnReset.hidden = false
     }
 };
 
@@ -114,4 +116,13 @@ btnPapel.addEventListener('click', () => {
 btnTijeras.addEventListener('click', () => {
     select = "tijeras"
     playRound(playerSelection(select), getComputerChoice())
+});
+
+btnReset.addEventListener('click', () => {
+    gameOver = false;
+    winner.textContent = ''
+    scores.textContent = ''
+    humanScore = 0;
+    computerScore = 0;
+    btnReset.hidden = true;
 })
